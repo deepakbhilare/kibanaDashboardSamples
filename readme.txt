@@ -29,4 +29,89 @@ PUT mylog
 }
 
 
+---------------------
+logstash
+---------
+curl -XGET 'localhost:9600/_node/logging?pretty'
+
+curl -XPUT 'localhost:9600/_node/logging?pretty' -H 'Content-Type: application/json' -d'
+{
+    "logger.logstash.outputs.elasticsearch" : "DEBUG"
+}
+'
+
+curl -XPUT 'localhost:9600/_node/logging/reset?pretty'
+
+logstash.yml
+--------------
+slowlog.threshold.warn (default: -1)
+
+Configuring Logstashedit
+----------------------------
+input { stdin { } }
+output {
+  elasticsearch { hosts => ["localhost:9200"] }
+  stdout { codec => rubydebug }
+}
+
+bin/logstash -f logstash-simple.conf
+
+GET _search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+PUT .kibana/_settings
+{
+  "index": {
+    "blocks": {
+      "read_only_allow_delete": "false"
+    }
+  }
+}
+
+PUT _settings
+{
+  "index": {
+    "blocks": {
+      "read_only_allow_delete": "false"
+    }
+  }
+}
+PUT mylog/_settings
+{
+  "index": {
+    "blocks": {
+      "read_only_allow_delete": "false"
+    }
+  }
+}
+
+readonly index
+-----------------
+
+curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_all/_settings -d '{"index.blocks.read_only_allow_delete": null}'
+
+
+How to disable ElasticSearch disk quota / watermark
+------------------------------------------------------
+curl -X PUT "localhost:9200/_cluster/settings" -H 'Content-Type: application/json' -d'
+{
+  "transient": {
+    "cluster.routing.allocation.disk.watermark.low": "30mb",
+    "cluster.routing.allocation.disk.watermark.high": "20mb",
+    "cluster.routing.allocation.disk.watermark.flood_stage": "10mb",
+    "cluster.info.update.interval": "1m"
+  }
+}
+'
+
+curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_all/_settings -d '{"index.blocks.read_only_allow_delete": null}'
+
+curl -XGET "http://localhost:9200/_cat/allocation?v&pretty"
+
+----------------------------------------------------
+
 
