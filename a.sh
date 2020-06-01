@@ -1,7 +1,7 @@
 date1=1
 date2=""
 month=1
-year=2013
+year=2011
 fulldate=""
 random=0
 remarks=""
@@ -42,7 +42,7 @@ do
 
     date1=`expr $date1 + 1`
 
-    echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
+#    echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
     if [ $failedRec -eq 1 ]
     then
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_1","result":"'$failResult'","remarks":"'$failRemarks'"}'
@@ -51,7 +51,7 @@ do
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_1","result":"'$result'","remarks":"'$remarks'"}'
     fi
 
-    echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
+ #   echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
     if [ $failedRec -eq 2 ]
     then
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_2","result":"'$failResult'","remarks":"'$failRemarks'"}'
@@ -60,7 +60,7 @@ do
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_2","result":"'$result'","remarks":"'$remarks'"}'
     fi
 
-    echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
+  #  echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
     if [ $failedRec -eq 3 ]
     then
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_3","result":"'$failResult'","remarks":"'$failRemarks'"}'
@@ -69,7 +69,7 @@ do
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_3","result":"'$result'","remarks":"'$remarks'"}'
     fi
 
-    echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
+   # echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
     if [ $failedRec -eq 4 ]
     then
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_4","result":"'$failResult'","remarks":"'$failRemarks'"}'
@@ -78,7 +78,7 @@ do
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_4","result":"'$result'","remarks":"'$remarks'"}'
     fi
 
-    echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
+    #echo '{"index":{"_id":"'"A"$generalCounter$random'"}}'
     if [ $failedRec -eq 5 ]
     then
       echo '{"date":"'${fulldate}'","uuid":"'${luuid}'","scenarioid":"ABC_'$date1'","srvname":"SRV_ABC_5","result":"'$failResult'","remarks":"'$failRemarks'"}'

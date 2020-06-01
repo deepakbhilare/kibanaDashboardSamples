@@ -114,4 +114,4 @@ curl -XGET "http://localhost:9200/_cat/allocation?v&pretty"
 
 ----------------------------------------------------
 
-
+[2020-06-01T22:25:53,348][INFO ][logstash.outputs.elasticsearch][main][d96b78db5ecdf32039c7dcb9d708329d4eed25d40bbe86f779f85d6bbe0b1280] retrying failed action with response code: 403 ({"type"=>"cluster_block_exception", "reason"=>"index [logstash] blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];"})
