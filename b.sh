@@ -27,7 +27,7 @@ do
 
     date1=`expr $date1 + 1`
 
-      for str in "ABC" 
+      for str in "SRV1_" "SRV2_" "SRV3_" "SRV4_" "SRV5_"
       do
         random=$((RANDOM%30))
 
