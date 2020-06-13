@@ -378,10 +378,35 @@ TOKENS - [A, quick , brown, fox, etc]
     token filter 
     character filter
 
-where we use analysis : 
-  PUT employee
-  {
-     
-  }
+  -> standard analyzer - default
+      stopwords = "_english" or [ array ]
+      
+      GET employees/_analyze
+      {
+        "field" : "comments",
+        "text" : "the quick brown etc "
+      }
 
+  -> simple analyzer
+      breaks text into terms whenever it encounters a char which is not a letter. all terms lower case
+      POST _analyze
+      {
+        "analyzer" : "simple",
+        "text" : "The quick brown etc"
+      }
 
+   -> whitespace analyzer
+      break text on white space 
+      POST _analyze
+      {
+        "analyzer" : "whitespace",
+        "text" : "The quick brown etc"
+      }
+
+    -> keyword - no config, all string as token
+    -> stop analyzer - stopward, stopward_path
+    -> pattern analyzer - stopward, stopward_path, pattern, lowercase
+          - regex patterns
+    -> custom analyzer - tikenizer, char_filter, filter
+==============================================================
+15. MAPPING
