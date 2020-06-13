@@ -304,3 +304,84 @@ Term query -
     }
   }
 
+Prefix DSL : 
+=============
+  GET employee/_search
+  {
+    "query" : {
+      "prefix" : {
+        "empName" : "bro"
+          --> search partial word matching with bro*
+      }
+    }
+  }
+
+  GET employee/_search
+  {
+    "query" : {
+      "wildcard" : {"empName" : "*bro"}
+        --> queries getting heavy, please avoid
+    }
+  }
+
+COMPOUND QUERY
+======================
+  GET employee/doc/_search
+  {
+    "query"{
+      "bool" : {
+        "must" : {
+          "lastUpdateTimeStamp" : "timestamp"
+            --> must match
+        }
+      },
+      "filter" : { <-- dosnt impact match value only filters
+        "range" : {
+          "age" {
+            "gte" : 10,
+            "lte" : 35
+          }
+        }
+      },
+      "should" : <-- OR type match array
+                Even nothing matched then also return in case match query  
+      [ 
+        {
+          "term" : {
+            "empName.keyword" : {
+              "value" : "deepak"
+            }
+          }
+        },
+        {
+          "term" : {
+            "empName.keyword" : {
+              "value" : "bhilare"
+            }
+          }
+        }
+      ],
+      "minimum_should_match" : {}
+    }
+  }
+
+=========================================================
+MAPPING
+=========================================================
+ANALYSIS - convert text into token or terms
+SENTENCE - "A quick brown fox etc " 
+TOKENS - [A, quick , brown, fox, etc]
+  performed by - 
+    analyzer - breaks string into tokens, token stream, any language
+      flow : reader->tokenizer->token filter->token filter->token
+    tokenizer
+    token filter 
+    character filter
+
+where we use analysis : 
+  PUT employee
+  {
+     
+  }
+
+
