@@ -1,0 +1,306 @@
+type == table
+row == document
+rdbms == database --> tables --> columns rows
+elastic_search == index --> database --> types --> documents with properties
+
+CLUSTER --> 
+Node <-- shards + replicas
+ONE_CLUSTER = MANY NODES
+Each Node has uuid 
+
+MAPPING --> 
+
+API's -->
+Document API 
+Search API
+Indices API
+cat API
+Cluster API
+
+  DOCUMENT API --> 
+    Single Document API
+      Index API
+        adds/updates typed JSON document
+        insert data:
+          JSON format
+          POST index/tableOrTypeName/index
+          UPDATE Change and post the data 
+      Get API
+          GET index/tableOrTypeName/_search
+          GET index/tableOrTypeName/_search?size=20
+            only 20 records will get fetched:default 10
+          GET index/tableOrTypeName/_mapping
+          GET index/tableOrTypeName/_count
+          GET index/tableOrTypeName/_settings
+      Delete API
+          DELETE index/tableOrTypeName/indexID
+          DELETE index/tableOrTypeName/_delete_by_query
+            {
+              "query" : {
+                "match" : {
+                  "EmpName" : "ABCD"
+                }
+              }
+            }
+      Update API
+          POST index/tableOrTypeName/indexId/_update
+            {
+              "script": {
+observe-->     "source" : "ctx._source-params.val",
+                "lang" : "painless",
+                "params" : {
+                  "val" : {
+                    "emp" : 104,
+                    "emp_name" : "someName",
+                    "age" : 24,
+                    "gender" : "Female"
+                  }
+                }
+              }
+            }
+          POST index/tableOrTypeName/indexId/_update
+            {
+              "script" {
+                "source" : "ctx._source.age = params.val",
+                "lang" : "painless",
+                "params" : {
+                  "val" : 30
+                }
+              }
+            }
+
+          POST index/tableOrTypeName/indexId/_update
+            {
+              "script" {
+                "source" : "ctx._source.address = add(params.tags)",
+                "lang" : "painless",
+                "params" : {
+                  "addressID" : 30,
+                  "addressNumber" : 100
+                }
+              }
+            }
+
+          POST index/tableOrTypeName/indexId/_update
+            {
+              "doc" : {
+                "empName" : "SomeOtherName"
+              }
+            }
+
+          POST index/tableOrTypeName/indexId/_update_by_query
+            {
+              "query" : {
+                "match" : {
+                  "empName" : "someName"
+                }
+              },
+              "script" : {
+                "source" : "ctx._source.Address.add(params.tag)",
+                "lang" : "painless",
+                "params" : {
+                  "tag" : { 
+                    "addressID" : 10,
+                    "addressNumber" : 100
+                  }
+                }
+              }
+            }
+
+    Multi Document API
+      Multi get API
+        GET _mget
+        {
+          "docs" : [ 
+            {
+              "_index" : "employees-details",
+              "_type" : "doc",
+              "_id" : 101
+            },
+            {
+              "_index" : "employees-details",
+              "_type" : "doc",
+              "_id" : 102
+            }
+          ]
+        }
+      Bulk API
+        POST _bulk 
+        {"index" : {"_index" : "test", "_type" : "_doc", "id" : "1"}} <-- specify
+        {"field" : "value1"} <-- insert data
+        {"delete" : {"_index" : "test", "_type" : "_doc", "id" : "2"}} <-- specify
+        {"create" : {"_index" : "test", "_type" : "_doc", "id" : "3"}} <-- specify
+        {"field1" : "value2"}
+        {"update" : {"_id" : "1", "_type" : "_doc", "index" : "test"}} <-- specify
+        {"doc" : {"field1" : "value2"}}
+      Delete by query API
+      Update by query API
+      Reindex API
+        POST _reindex
+        {
+          "source" : {
+            "index" : "test"
+          },
+          "dest" : {
+            "index" : "test1"
+          }
+        }
+===========================================================
+5. SEARCH API 
+default : 10 records 
+GET employees/doc/_search?search=1000 <-- first 1000 records
+GET _all/_search?q=fieldName:fieldValue|* 
+URI --> employees/doc/_search?search=1000
+
+Request body search ( query )
+  Query DSL
+  Search element : "query"
+    GET employees/doc/_search
+    {
+      "query" : {
+        "match" : {
+          "empName" : "abcd"
+        }
+      }
+    }
+
+  Pagination : from / size
+  GET  employee/doc/_search
+    {
+      "size" : 10,
+      "from" : 1,
+      "query" : {
+        "match" : {
+          "empname" : "abcd"
+      }
+    }
+
+  SORT : 
+  GET  employee/doc/_search
+    {
+      "size" : 10,
+      "from" : 1,
+      "query" : {
+        "query_string" : {
+          "default_filed" : "name",
+          "query" : "*"
+        }
+      },
+      "sort" : [
+        {
+          "empName.keyword" : {
+            "order" : "desc"
+          }
+        }
+      ]
+    }
+
+QUERY DSL - domain specific language
+====================================
+Match query 
+Match phrase query
+Match phrase prefix query 
+Multi match query
+
+Match query 
+  GET employee/_search
+  {
+    "query" :{
+      "match" : {
+        "comments" : "quick brown dog" 
+          --> quick or brown or dog
+      }
+    }
+  }
+
+  GET employee/_search
+  {
+    "query" :{
+      "match_phrase" : {
+        "comments" : "quick brown dog" 
+          --> strict match "quick brown dog"
+      }
+    }
+  }
+
+  GET employee/_search
+  {
+    "query" :{
+      "match_phrase" : {
+        "query" : "quick brown dog",
+        "slop" : 4
+          --> word present between 4 words
+      }
+    }
+  }
+
+  GET employee/_search
+  {
+    "query" :{
+      "match_phrase_prefix" : {
+        "comments" : "quick brown"
+          --> comes together
+      }
+    }
+  }
+
+  GET employee/_search
+  {
+    "query" :{
+      "match_all" : {
+      }
+    }
+  }
+========================
+Query String Query - 
+
+GET employee/_search
+{
+  "query" : {
+    "query_string" : {
+      "default_field" : ["fieldName", "lastName"]
+        --> always takes string so in case of int values
+            take intName.text, check mapping for .text 
+      "query" : "deepak bhilare",
+      "default_operator" : "AND"
+    }
+  }
+}
+========================
+Term query - 
+
+  GET employee/_search
+  {
+    "query" : {
+      "term" : {
+        "firstName.keyword" : {
+          "value" : "deepak"
+        }
+      }
+    }
+  }
+
+  GET employee/_search
+  {
+    "query" : {
+      "terms" : {
+        "firstName.keyword" : [
+          "deepak",
+          "bhilare"
+        ]
+      }
+    }
+  }
+
+  GET employee/_search
+  {
+    "query" : {
+      "range" : {
+        "age" : {
+          "gte" : 10,
+          "lte" : 20
+        }
+      }
+    }
+  }
+
