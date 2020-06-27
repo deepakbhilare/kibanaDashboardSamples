@@ -118,3 +118,5 @@ curl -XGET "http://localhost:9200/_cat/allocation?v&pretty"
 ------------------------------------------------------
 https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html#request-body-search-queries-and-filters
 ------------------------------------------------------
+https://dzone.com/articles/23-useful-elasticsearch-example-queries
+https://logz.io/blog/elasticsearch-queries/
