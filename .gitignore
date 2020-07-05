@@ -1,0 +1,10 @@
+cpp_eclipse_workspace/.metadata/*
+*.o
+cpp_eclipse_workspace/Debug/*
+Debug/*
+cpp_eclipse_workspace/first/Debug
+*.d
+cpp_eclipse_workspace/first/.settings
+cpp_eclipse_workspace/first/.cproject
+cpp_eclipse_workspace/first/.project
+
