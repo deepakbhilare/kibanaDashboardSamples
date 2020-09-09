@@ -120,3 +120,8 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-b
 ------------------------------------------------------
 https://dzone.com/articles/23-useful-elasticsearch-example-queries
 https://logz.io/blog/elasticsearch-queries/
+-----------------------------------------------------
+raspberry pi and alexa
+https://circuitdigest.com/microcontroller-projects/voice-controlled-home-automation-using-amazon-alexa-and-raspberry-pi
+https://www.instructables.com/id/RASPBERRY-PI-ALEXA-HOME-AUTOMATION/
+
