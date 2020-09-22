@@ -125,3 +125,5 @@ raspberry pi and alexa
 https://circuitdigest.com/microcontroller-projects/voice-controlled-home-automation-using-amazon-alexa-and-raspberry-pi
 https://www.instructables.com/id/RASPBERRY-PI-ALEXA-HOME-AUTOMATION/
 
+
+https://medium.com/@peshrus/crossover-evaluation-4055c5ada695
